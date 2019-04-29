@@ -11,8 +11,12 @@ exports.create = (text, callback) => {
   // var id = 
     counter.getNextUniqueId(function(err, data){
     var id = data;
-    console.log(data)
-    fs.writeFile(`./datastore/data/${id}.txt`, text);
+    // console.log(data)
+    // let dirpathhh = path.join();
+    const dirpathhh = path.join(exports.dataDir, `${id}.txt`);
+    // console.log("current path : " , dirpathhh)
+    fs.writeFile(dirpathhh, text);
+    // console.log(JSON.stringify({id,text}))
     callback(null, { id, text });
     //"1", "2", "3"
     return data //"00001"
@@ -24,7 +28,20 @@ exports.readAll = (callback) => {
   var data = _.map(items, (text, id) => {
     return { id, text };
   });
-  callback(null, data);
+  fs.readdir(exports.dataDir, (err, data) => {
+    let finalArray = [];
+    for (let i = 0 ; i < data.length; i++) {
+      let filetextpath = path.join(exports.dataDir, data[i])
+      fs.readFile(filetextpath, 'utf8' ,(err, onetext)=> {
+        finalArray.push(JSON.stringify(onetext));
+        console.log(JSON.stringify(onetext));
+      })
+    }
+
+    // console.log("final array ", finalArray)
+    // callback(null, finalArray);
+
+  })
 };
 
 exports.readOne = (id, callback) => {

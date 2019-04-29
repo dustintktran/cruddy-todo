@@ -8,6 +8,7 @@ const todos = require('../datastore/index.js');
 const initializeTestFiles = () => {
   counter.counterFile = path.join(__dirname, './counterTest.txt');
   todos.dataDir = path.join(__dirname, 'testData');
+  console.log("test data dir : ", todos.dataDir)
   todos.initialize();
 };
 
@@ -77,6 +78,8 @@ describe('todos', () => {
           done();
         });
       });
+
+
     });
 
     it('should use the generated unique id as the filename', (done) => {
@@ -91,7 +94,10 @@ describe('todos', () => {
     it('should only save todo text contents in file', (done) => {
       const todoText = 'walk the dog';
       todos.create(todoText, (err, todo) => {
+        console.log('the todo is ', JSON.stringify(todo.id))
         const todoFileContents = fs.readFileSync(path.join(todos.dataDir, `${todo.id}.txt`)).toString();
+        //"[something]"
+        console.log('walk the dog: ', todoFileContents);
         expect(todoFileContents).to.equal(todoText);
         done();
       });

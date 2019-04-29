@@ -34,7 +34,7 @@ const writeCounter = (count, callback) => {
       callback(null, counterString);
     }
   });
-};
+};   //fs.writeFile(exports.counterFile, counterString, (err) => {
 
 // Public API - Fix this function //////////////////////////////////////////////
 
